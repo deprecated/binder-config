@@ -1,0 +1,55 @@
+* Setup Google Cloud with Kubernetes
+** DONE Make free Google Cloud account
+CLOSED: [2018-08-15 Wed 13:35]
++ This gives me 300 USD credit to use over 6 months
++ But there are also "always free" resources, which I will try and stick to
+** Setup Kubernetes engine on Google Cloud
++ [X] Create cluster
+  + I have changed the machine type to micro so I won't use up any credit
+  + And gone for only 3 nodes, which is the minimum
+** Install kubernetes and gcloud stuff locally
++ Command line stuff, such as kubectl, from homebrew
+  #+BEGIN_SRC sh
+  brew install kubernetes-cli
+  #+END_SRC
++ [X] Ah, actually maybe we should use the Google Cloud SDK
+  + https://cloud.google.com/sdk/docs/quickstart-macos
+  + [X] Installed in [[file:~/Source/google-cloud-sdk/]]
+  + [X] Configure: ~gcloud init~, which prompted me to log in to my Google account in a browser
+  + [X] Install gcloud version of Kubernetes CLI
+    + ~gcloud components install kubectl~
+      + Installs version 1.9.7
+    + This warns about an "older" version in my PATH, which is the homebrew one, which is actually newer (1.11)
+      + Hopefully, this won't cause a problem
+** Set up local machine to talk to kubernetes cluster
+Following tutorial at https://cloud.google.com/kubernetes-engine/docs/quickstart
+
+#+BEGIN_SRC sh
+gcloud container clusters list
+#+END_SRC
+
+: NAME       LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE  NODE_VERSION  NUM_NODES  STATUS
+: cluster-1  us-central1-a  1.9.7-gke.5     35.193.92.175  f1-micro      1.9.7-gke.5   3          RUNNING
+
+So cluster is called ~cluster-1~.  Note that I didn't need to do ~gcloud container clusters create ...~ since I had already done that in the web interface
+
+#+BEGIN_SRC sh
+gcloud container clusters get-credentials cluster-1
+#+END_SRC
+
+: Fetching cluster endpoint and auth data.
+: kubeconfig entry generated for cluster-1.
+
+#+BEGIN_SRC sh
+kubectl get nodes
+#+END_SRC
+
+: NAME                                       STATUS    ROLES     AGE       VERSION
+: gke-cluster-1-default-pool-3322f256-54fd   Ready     <none>    44m       v1.9.7-gke.5
+: gke-cluster-1-default-pool-3322f256-pm2w   Ready     <none>    44m       v1.9.7-gke.5
+: gke-cluster-1-default-pool-3322f256-wwrf   Ready     <none>    44m       v1.9.7-gke.5
+
+Hurray, we now have them recognized by ~kubectl~
+
+I am skipping the rest of the tutorial, since I have no interest in deploying their ~hello-app~
+
