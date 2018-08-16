@@ -1,4 +1,26 @@
+
+* Different ways of using binder
++ Using [[https://mybinder.org][mybinder.org]] to do everything automatically from a github repo
+  + [-] Currently trying this out with the Grey Atmospheres tarea
+    + [[https://mybinder.org/v2/gh/deprecated/grey-atmosphere/master?filepath=Grey%2520Milne%2520Flux.ipynb][launch in binder]]
+    + [X] Added a ~environment.yml~ file with the python package dependencies
+      + This actually seems very wasteful, since it is installing a whole bunch of things that I don't need
+      + Maybe I should use ~requirements.txt~ instead
+    + [X] See if we need to install latex as well
+      + No, it seems not - matplotlib works fine without it
+    + [ ] Look into using JupyterLab
+      + https://mybinder.org/v2/gh/deprecated/grey-atmosphere/master?urlpath=lab
+      + This takes ages to launch the server, and then fails
++ Host it myself on my own
+  + [ ] Either in Google Cloud as described in [[id:1063B48E-24AD-44E2-9B1A-E21B7450536E][Setup Google Cloud with Kubernetes]]
+  + [ ] Or on a machine at the IRyA
+
+
+
 * Setup Google Cloud with Kubernetes
+:PROPERTIES:
+:ID:       1063B48E-24AD-44E2-9B1A-E21B7450536E
+:END:
 ** DONE Make free Google Cloud account
 CLOSED: [2018-08-15 Wed 13:35]
 + This gives me 300 USD credit to use over 6 months
@@ -52,4 +74,7 @@ kubectl get nodes
 Hurray, we now have them recognized by ~kubectl~
 
 I am skipping the rest of the tutorial, since I have no interest in deploying their ~hello-app~
-
+** Install helm on the kubernetes cluster
++ So I am now back on the instructions at [[https://binderhub.readthedocs.io/en/latest/create-cloud-resources.html][binderhub]]
+  + Execute all the steps in 1.2.2, 1.2.3, 1.2.4 of that page
+  + This installs and secures ~helm~
